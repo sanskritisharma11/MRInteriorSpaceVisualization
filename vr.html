@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>VR Designer – Mixed Reality Room Designer</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="css/style.css">
+  <script src="lib/aframe.min.js"></script>
+  <script src="js/storage.js"></script>
+  <script src="js/furniture.js"></script>
+  <script src="js/room.js"></script>
+</head>
+<body>
+  <div id="loading">Loading the virtual room…</div>
+
+  <!-- ===================== 3D / VR scene ===================== -->
+  <a-scene id="scene"
+           renderer="antialias: true; colorManagement: true; highRefreshRate: true"
+           shadow="type: pcfsoft"
+           background="color: #1b2030"
+           loading-screen="enabled: false"
+           vr-mode-ui="enabled: true">
+
+    <a-entity id="ambient" light="type: ambient; color: #ffffff; intensity: 0.3"></a-entity>
+    <a-entity id="hemi" light="type: hemisphere; color: #ffffff; groundColor: #8a7a6a; intensity: 0.3"></a-entity>
+    <a-entity id="sun" position="-2 6 3"
+              light="type: directional; color: #fff3e0; intensity: 0.9; castShadow: true;
+                     shadowMapWidth: 2048; shadowMapHeight: 2048; shadowBias: -0.0005;
+                     shadowCameraLeft: -4; shadowCameraRight: 4; shadowCameraTop: 4; shadowCameraBottom: -4;
+                     shadowCameraNear: 0.5; shadowCameraFar: 20"></a-entity>
+    <a-entity id="ceilingLight" position="0 2.8 0" light="type: point; color: #fff6e8; intensity: 0.35; distance: 9; decay: 1"></a-entity>
+
+    <a-entity id="room"></a-entity>
+    <a-entity id="furnitureRoot"></a-entity>
+
+    <a-entity id="selRing" rotation="-90 0 0"
+              geometry="primitive: ring; radiusInner: 0.45; radiusOuter: 0.5; segmentsTheta: 64"
+              material="color: #ffb84d; shader: flat; transparent: true; opacity: 0.9"></a-entity>
+
+    <!-- Player: WASD to walk, drag the mouse to look around -->
+    <a-entity id="rig">
+      <a-entity id="camera" position="0 1.65 2.7"
+                camera="fov: 70"
+                look-controls="pointerLockEnabled: false; magicWindowTrackingEnabled: false"
+                wasd-controls="acceleration: 22"
+                stay-in-room></a-entity>
+    </a-entity>
+  </a-scene>
+
+  <!-- ===================== Design panel ===================== -->
+  <aside id="panel">
+    <header>
+      <h1>🏠 Room <span>Designer</span></h1>
+      <p>Virtual Reality mode · design your room in 3D</p>
+    </header>
+    <div class="scroll">
+      <h2>Add furniture</h2>
+      <div id="catalogue"></div>
+
+      <h2>Selected item</h2>
+      <div id="selectedPanel" class="disabled">
+        <div id="selName">Nothing selected</div>
+        <div id="selHint">Click a piece of furniture to select it.</div>
+        <div class="swatches" id="itemSwatches"></div>
+        <div class="row">
+          <button id="rotL" title="Rotate left (Q)">⟲ Rotate</button>
+          <button id="rotR" title="Rotate right (E)">Rotate ⟳</button>
+        </div>
+        <div class="row">
+          <button id="dupBtn">⧉ Duplicate</button>
+          <button id="delBtn" class="btn danger">🗑 Delete</button>
+        </div>
+      </div>
+
+      <h2>Wall colour</h2>
+      <div class="swatches" id="wallSwatches"></div>
+
+      <h2>Floor</h2>
+      <div id="floorButtons"></div>
+
+      <h2>Room</h2>
+      <div class="stack">
+        <button id="nightBtn" class="btn">🌙  Night mode</button>
+        <button id="shotBtn" class="btn">📸  Save screenshot</button>
+        <div class="row" style="margin-top:0">
+          <button id="sampleBtn">✨ Sample room</button>
+          <button id="clearBtn" class="btn danger">Clear all</button>
+        </div>
+        <button id="helpBtn" class="btn">❔  Controls</button>
+      </div>
+    </div>
+    <footer>
+      <span id="itemCount">0 items</span>
+      <a class="ar-link" href="ar.html">View in AR →</a>
+    </footer>
+  </aside>
+  <button id="panelToggle" title="Show / hide panel">☰</button>
+
+  <div id="hint"><b>WASD</b> walk · <b>drag</b> to look · <b>drag furniture</b> to move · <b>Q/E</b> or <b>scroll</b> rotate · <b>Del</b> delete</div>
+  <div id="toast"></div>
+
+  <div id="help" class="hidden">
+    <div class="card">
+      <h3>Controls</h3>
+      <table>
+        <tr><td><kbd>W</kbd> <kbd>A</kbd> <kbd>S</kbd> <kbd>D</kbd></td><td>Walk around the room</td></tr>
+        <tr><td>Drag empty space</td><td>Look around</td></tr>
+        <tr><td>Click furniture</td><td>Select it</td></tr>
+        <tr><td>Drag furniture</td><td>Move it across the floor</td></tr>
+        <tr><td><kbd>Q</kbd> / <kbd>E</kbd> or scroll</td><td>Rotate the selected item</td></tr>
+        <tr><td><kbd>Delete</kbd></td><td>Delete the selected item</td></tr>
+        <tr><td><kbd>N</kbd></td><td>Day / night lighting</td></tr>
+        <tr><td><kbd>Esc</kbd></td><td>Deselect</td></tr>
+        <tr><td>VR goggles button</td><td>Enter immersive VR on a headset</td></tr>
+      </table>
+      <p style="color:var(--muted);font-size:13px">Your design saves automatically. Click <b>View in AR</b> to see it on a marker through your webcam.</p>
+      <button id="helpClose" class="btn primary" style="width:100%">Got it</button>
+    </div>
+  </div>
+
+  <script src="js/vr.js"></script>
+</body>
+</html>

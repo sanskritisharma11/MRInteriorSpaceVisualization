@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>AR Viewer – Mixed Reality Room Designer</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    html, body { overflow: hidden; background: transparent !important; }
+    /* AR.js places the webcam <video> behind the 3D canvas */
+    video { object-fit: cover; }
+  </style>
+  <script src="lib/aframe.min.js"></script>
+  <script src="lib/aframe-ar.js"></script>
+  <script src="js/ar-data.js"></script>
+  <script src="js/storage.js"></script>
+  <script src="js/furniture.js"></script>
+  <script src="js/room.js"></script>
+</head>
+<body>
+  <!-- Overlay UI -->
+  <div id="arTop" class="ar-ui">
+    <div id="arStatus"><span class="dot"></span><span id="arStatusText">Starting camera…</span></div>
+  </div>
+
+  <div id="arHelp" class="ar-ui">
+    <div class="card">
+      Hold the <b>Hiro marker</b> in front of your webcam. Print it or open it on your phone.
+      Your room will appear on top of it.<br>
+      <img src="assets/hiro.png" alt="Hiro marker">
+    </div>
+  </div>
+
+  <div id="arBottom" class="ar-ui">
+    <a href="vr.html">← VR Designer</a>
+    <button id="rotL">⟲</button>
+    <button id="rotR">⟳</button>
+    <button id="smaller">－ Size</button>
+    <button id="bigger">＋ Size</button>
+    <button id="wallsBtn">Walls: On</button>
+    <a href="marker.html" target="_blank">🖨 Marker</a>
+  </div>
+
+  <script src="js/ar.js"></script>
+</body>
+</html>
